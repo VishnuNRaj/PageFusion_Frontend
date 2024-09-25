@@ -8,6 +8,7 @@ import Edit from "./pages/Edit"
 import Canvas from "./pages/Canvas"
 import Upload from "./pages/Upload"
 import View from "./pages/Viewer"
+import Landing from "./pages/Landing"
 
 export default function RouterConfig() {
     return (
@@ -21,6 +22,7 @@ export default function RouterConfig() {
             <Route path={"/page"} key={"canvas"} component={Canvas} />
             <Route path={"/upload"} key={"upload"} component={Upload} />
             <Route path={"/pdf/:key"} key={"view"} component={View} />
+            <Route path={"/"} key={"landing"} component={Landing} />
         </Router>
     )
 }

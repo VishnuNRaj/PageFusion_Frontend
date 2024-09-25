@@ -1,6 +1,7 @@
 import useDashboard from "@/hooks/useDashboard"
 import { IconPageBreak, IconUpload } from "@tabler/icons-react"
 import Loader from "./Loader"
+import Upload from "@/pages/Upload"
 
 export default function DashboardComponent() {
     const { navigate, pdfs, handleKey, handleOpen, open, key, verifyKey, load, cancel } = useDashboard()
@@ -41,18 +42,23 @@ export default function DashboardComponent() {
                 </div>
             }
             <div class={"w-full h-full md:px-10 p-3"}>
-                <div class={"w-full grid md:grid-cols-3 grid-cols-2 lg:grid-cols-6 xl:grid-cols-7 h-auto md:gap-5 gap-2"} style={{ aspectRatio: "9:16" }}>
-                    {pdfs.length > 0 && pdfs.map((pdf, idx) => (
-                        <div onClick={() => handleOpen(pdf._id)} key={idx} class={"w-full h-full bg-silver flex items-center justify-center flex-col dark:hover:text-white dark:text-gray-500 dark:bg-black-200 rounded-lg min-h-[200px]"}>
-                            <div class={"w-full dark:bg-black-300 rounded-lg mt-4 flex items-center justify-center h-full max-h-[150px]"}>
-                                <IconPageBreak size={"150px"} />
+                {pdfs.length > 0 && (
+                    <div class={"w-full grid md:grid-cols-3 grid-cols-2 lg:grid-cols-6 xl:grid-cols-7 h-auto md:gap-5 gap-2"} style={{ aspectRatio: "9:16" }}>
+                        {pdfs.length > 0 && pdfs.map((pdf, idx) => (
+                            <div onClick={() => handleOpen(pdf._id)} key={idx} class={"w-full h-full bg-silver flex items-center justify-center flex-col dark:hover:text-white dark:text-gray-500 dark:bg-black-200 rounded-lg min-h-[200px]"}>
+                                <div class={"w-full dark:bg-black-300 rounded-lg mt-4 flex items-center justify-center h-full max-h-[150px]"}>
+                                    <IconPageBreak size={"150px"} />
+                                </div>
+                                <div class={"w-full h-[50px] overflow-x-scroll mx-2 flex items-center justify-center"}>
+                                    {pdf.fileName}
+                                </div>
                             </div>
-                            <div class={"w-full h-[50px] overflow-x-scroll mx-2 flex items-center justify-center"}>
-                                {pdf.fileName}
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                )}
+                {pdfs.length === 0 && (
+                    <Upload />
+                )}
             </div>
         </div>
     )
