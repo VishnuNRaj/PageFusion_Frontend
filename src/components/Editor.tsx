@@ -71,7 +71,7 @@ export default function A4Editor() {
                                 key={index}
                                 defaultPosition={{ x: element.x, y: element.y }}
                                 position={{ x: element.x, y: element.y }}
-                                onDrag={(e, data) => !isResizing && handleDrag(index, data)} // Prevent dragging while resizing
+                                onDrag={(_e, data) => !isResizing && handleDrag(index, data)} // Prevent dragging while resizing
                                 disabled={isResizing} // Disable drag when resizing
                             >
                                 <div style={{ position: 'absolute' }}>
@@ -81,7 +81,7 @@ export default function A4Editor() {
                                         minConstraints={[50, 50]}
                                         maxConstraints={[500, 500]}
                                         onResizeStart={() => setIsResizing(true)} // Start resizing
-                                        onResizeStop={(e, { size }) => {
+                                        onResizeStop={(_e, { size }) => {
                                             const newElements = [...elements];
                                             newElements[index].width = size.width;
                                             newElements[index].height = size.height;
@@ -104,7 +104,7 @@ export default function A4Editor() {
                             <Draggable
                                 key={index}
                                 defaultPosition={{ x: element.x, y: element.y }}
-                                onDrag={(e, data) => handleDrag(index, data)}
+                                onDrag={(_e, data) => handleDrag(index, data)}
                             >
                                 <div
                                     contentEditable

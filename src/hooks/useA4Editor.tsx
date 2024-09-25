@@ -9,7 +9,7 @@ export default function useA4Editor() {
     const [padding, setPadding] = useState(10);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const editorRef = useRef<HTMLDivElement | null>(null);
-    const [exportedBlob, setExportedBlob] = useState<Blob | null>(null);
+    const [exportedBlob, _setExportedBlob] = useState<Blob | null>(null);
     const addImage = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.currentTarget.files?.[0];
         if (file) {
