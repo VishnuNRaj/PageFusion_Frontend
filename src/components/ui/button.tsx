@@ -29,21 +29,20 @@ const buttonVariants = cva(
   }
 );
 
+// Define the ButtonProps interface more explicitly
 export interface ButtonProps
-  // @ts-ignore
-  extends JSX.IntrinsicElements['button'],
+  extends Omit<JSX.IntrinsicElements['button'], 'ref'>,
   VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  //@ts-ignore
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
-        // @ts-ignore
+        //@ts-ignore
         ref={ref}
         {...props}
       />

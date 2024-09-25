@@ -2,7 +2,7 @@ import { useAxios } from '@/context/AxiosContext';
 import { AxiosResponse } from 'axios';
 import { useEffect } from 'preact/hooks';
 import { toast } from 'sonner';
-import { Redirect, useLocation } from 'wouter';
+import { useLocation, useParams } from 'wouter';
 
 interface VerifyResponse {
     message: string;
@@ -12,37 +12,42 @@ interface VerifyResponse {
 }
 
 export default function useVerify() {
-    const [location] = useLocation();
-    const data = useAxios()
+    const [, navigate] = useLocation();
+    const params = useParams();
+    const data = useAxios();
+
     useEffect(() => {
-        if (location) {
-            const queryParams = new URLSearchParams(location);
-            const token = queryParams.get('token');
-            if (token) handleVerify(token)
-            else handleError();
+        const { token } = params;
+        if (token) {
+            handleVerify(token);
+        } else {
+            handleError();
         }
-    }, [])
+    }, [params]);
 
     function handleError() {
-        toast.error("Invalid Credentials")
-        Redirect({ href: "/dashboard" })
+        toast.error("Invalid Credentials");
+        navigate('/dashboard');
     }
+
     async function handleVerify(token: string) {
         if (data) {
             try {
                 const response: AxiosResponse<VerifyResponse> = await data.axiosInstance.get('/auth/verifyToken', {
                     headers: {
-                        "Authorization": token
+                        "Authorization": `${token}`
                     }
-                })
+                });
+
                 if (response.data.status) {
-                    toast.success(response.data.message)
-                    Redirect({ href: "/dashboard" })
+                    toast.success(response.data.message);
+                    navigate('/dashboard');
                 }
             } catch (e: any) {
-                toast.error(e.response.data.message)
+                toast.error(e?.response?.data?.message || 'Verification failed');
             }
         }
     }
+
     return data;
 }
