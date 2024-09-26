@@ -5,16 +5,25 @@ import { useDarkMode } from '@/context/ThemeContext';
 import { Moon, Sun } from 'lucide-react';
 import PageFusion from "@/assets/Logo.png";
 import { Link } from 'wouter';
+import { useUser } from '@/context/UserContext';
+import useEssentials from '@/hooks/useEssentials';
 
 export default function ResponsiveSidebar({ children }: { children: preact.ComponentChildren }) {
     const [isOpen, setIsOpen] = useState(false);
+    const { logout } = useUser()
+    const { navigate } = useEssentials()
     const { darkMode, toggleDarkMode } = useDarkMode();
     const menuItems = [
         { icon: <IconHome className="h-6 w-6" />, text: 'Dashboard', path: "/dashboard" },
         { icon: <IconPlus className="h-6 w-6" />, text: 'Create PDF', path: "/create" },
         { icon: <IconPdf className="h-6 w-6" />, text: 'Edit PDF', path: "/edit" },
         { icon: <IconPageBreak className="h-6 w-6" />, text: 'Create Page', path: "/page" },
-        { icon: <IconLogout className="h-6 w-6 font-semibold" />, text: 'Logout', path: "#" },
+        {
+            icon: <IconLogout onClick={() => {
+                logout()
+                navigate("/login")
+            }} className="h-6 w-6 font-semibold" />, text: 'Logout', path: "#"
+        },
     ];
 
     return (
